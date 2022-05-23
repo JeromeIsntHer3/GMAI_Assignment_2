@@ -1,0 +1,17 @@
+tree("Root")
+	repeat
+		fallback
+			tree("Approach")
+			tree("Idle")
+
+
+
+tree("Approach")
+	sequence
+		isClose("player")
+
+
+tree("Idle")
+	sequence
+		DisplayText("Waiting For Player")
+		Idle
