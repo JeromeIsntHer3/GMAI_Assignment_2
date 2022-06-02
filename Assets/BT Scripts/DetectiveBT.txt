@@ -1,17 +1,83 @@
 tree("Root")
 	repeat
 		fallback
-			tree("Approach")
+			tree("Not Nearby")
+			tree("Waiting")
+			tree("Investigation Over")
 			tree("Idle")
 
+tree("Investigation Over")
+	while AllCluesFound
+		sequence
+			isClose("player")
+			DetectiveLines("So what do you think happened?")
+			fallback
+				sequence
+					IsKeyDown("Y")
+					DetectiveLines("Seems to fit the case. Thank for your help!")
+					EndInvestigation
+				sequence
+					IsKeyDown("N")
+					DetectiveLines("Seems to fit the case. Thank for your help!")
+					EndInvestigation
+				sequence
+					IsKeyDown("J")
+					DetectiveLines("Seems to fit the case. Thank for your help!")
+					EndInvestigation
 
 
-tree("Approach")
+			
+tree("Not Nearby")
 	sequence
-		isClose("player")
+		fallback
+			not isClose("player")
+		sequence
+			Met
+			DetectiveLines("Hey! Where are you going?!")
 
 
+tree("Waiting")
+	sequence
+		fallback
+			sequence
+				isClose("player")
+				haveMet
+		fallback
+			isInvestigating
+			sequence
+				DetectiveLines("You ready to start the investigation?")
+				fallback
+					sequence
+						IsKeyDown("Y")
+						PlayerReady(true)
+						StartInvestigation
+						DetectiveLines("Right, let's get start the investigation.")
+					sequence
+						IsKeyDown("N")
+						PlayerReady(false)
+						DetectiveLines("Not sure what you're doing right now but make it quick.")
+						GoTo("idle")
+		sequence
+			isInvestigating
+			sequence
+				DetectiveLines("Are you ready to move on?")
+				fallback	
+					sequence
+						IsKeyDown("Y")
+					sequence
+						IsKeyDown("N")
+		sequence
+			fallback
+				ValidClue
+				not EndInvestigation
+			GoTo("clue")
+			NoteDown
+			Wait(1.0)
+
+		
+
+					
 tree("Idle")
 	sequence
-		DisplayText("Waiting For Player")
+		not isClose("player")
 		Idle

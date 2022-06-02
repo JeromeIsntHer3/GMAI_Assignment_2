@@ -6,6 +6,7 @@ TagManager:
   tags:
   - clue
   - player
+  - idle
   layers:
   - Default
   - TransparentFX
